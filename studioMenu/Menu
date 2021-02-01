@@ -1,0 +1,71 @@
+import java.awt.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+
+public class Menu {
+
+    private Date lastUpdated;
+    private ArrayList<MenuItem> items;
+    private HashMap<String, ArrayList<MenuItem>> categoryToItemsMap = new HashMap<>();
+
+    public Menu(ArrayList<MenuItem> items) {
+        setItems();
+    }
+
+    public Menu(Date d, ArrayList<MenuItem> items) {
+        setItems();
+        this.lastUpdated = d;
+    }
+
+    public void setItems(ArrayList<MenuItem> items) {
+        this.items = items;
+        this.lastUpdated = new Date();
+
+        //convert them to categoryToItemMap
+        for(MenuItem item : items) {
+            String category = item.getCategory;
+            if(categoryToItemsMap.containsKey(category)) {
+                categoryToItemsMap.get(category).add(item);
+            } else {
+                ArrayList<MenuItem> newItems = new ArrayList<>();
+                items.add(item);
+                categoryToItemsMap.put(category, newItems);
+            }
+        }
+    }
+
+    public void addItem(MenuItem item) {
+        if(this.items.contains(item)) {
+            System.out.println("That item already exists.");
+            return;
+        }
+        this.items.add(item);
+        this.lastUpdated = new Date();
+    }
+
+    public void removeItem(MenuItem item) {
+        this.items.remove(item);
+    }
+
+    public Date getLastUpdated() {
+        return lastUpdated();
+    }
+
+    public String getMenuString() {
+        String str = "";
+        for(MenuItem item: this.items) {
+            str+= item.getCategory() + "(" + item.getPrice() + ")" + "-" + item.getDescription() + "";
+        }
+        return str;
+    }
+
+    public void printItem(MenuItem item) {
+        System.out.println(item.getDescription());
+    }
+    public void printMenu() {
+        for (int i = 0; i < items.size(); i++) {
+            System.out.println(items.get(i));
+        }
+    }
+}
